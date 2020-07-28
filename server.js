@@ -87,7 +87,7 @@ const addEmployee = () => {
         },
         (err, res)=>{
             if (err) throw err;
-            console.log(`${res.affectedRows} employee(s) added to table.\n`); 
+            console.log(`\n${res.affectedRows} Employee added to table.\n`); 
             start();  
         }
         )
@@ -120,7 +120,7 @@ const addDepartment = () => {
         },
         (err, res)=>{
             if (err) throw err;
-            console.log(`${res.affectedRows} Department(s) added to table.\n`); 
+            console.log(`\n${res.affectedRows} Department added to table.\n`); 
             start();  
         }
         )
@@ -129,6 +129,43 @@ const addDepartment = () => {
 
 const viewAllDepartments = () => {};
 
-const addRole = () => {};
+const addRole = () => {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "id",
+            message: "Please enter the Role ID."
+        },
+        {
+            type: "input",
+            name: "title",
+            message: "Please enter the Role Title."
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "Please enter the Role Salary. (Format as ######.##)"
+        },
+        {
+            type: "input",
+            name: "dep_id",
+            message: "Please enter the relevant Department ID."
+        },
+    ]).then((data)=>{
+        connection.query("INSERT INTO role SET ?",
+        {
+            id: data.id,
+            title: data.title,
+            salary: data.salary,
+            department_id: data.dep_id,
+        },
+        (err, res)=>{
+            if (err) throw err;
+            console.log(`\n${res.affectedRows} Role added to table.\n`); 
+            start();  
+        }
+        )
+    })
+};
 
 const viewAllRoles = () => {};
