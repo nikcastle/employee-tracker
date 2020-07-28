@@ -78,7 +78,20 @@ const addEmployee = () => {
             name: "role_id",
             message: "Please enter the Employee's role ID."
         },
-    ])
+    ]).then((data)=>{
+        connection.query("INSERT INTO employee SET ?",
+        {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            role_id: data.role_id,
+        },
+        (err, res)=>{
+            if (err) throw err;
+            console.log(`${res.affectedRows} employee(s) added to table.`); 
+            start();  
+        }
+        )
+    })
 };
 
 const updateEmployee = () => {};
