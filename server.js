@@ -23,10 +23,10 @@ const start = () => {
             type: "list",
             name: "method",
             message: "What would you like to do?",
-            choices: ["Add Employee", "Update Employee Role", "View All Employees", "Add Department", "View All Departments", "Add Role", "View All Roles"]
+            choices: ["Add Employee", "Update Employee Role", "View All Employees", "Add Department", "View All Departments", "Add Role", "View All Roles", "Exit"]
         })
         .then((answer) => {
-            switch (method) {
+            switch (answer.method) {
                 case "Add Employee":
                     addEmployee();
                     break;
@@ -48,7 +48,7 @@ const start = () => {
                 case "View All Roles":
                     viewAllRoles();
                 default:
-                    console.log("You must select one of the options above.");
+                    connection.end();
 
 
             }
