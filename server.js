@@ -87,18 +87,45 @@ const addEmployee = () => {
         },
         (err, res)=>{
             if (err) throw err;
-            console.log(`${res.affectedRows} employee(s) added to table.`); 
+            console.log(`${res.affectedRows} employee(s) added to table.\n`); 
             start();  
         }
         )
     })
 };
 
-const updateEmployee = () => {};
+const updateEmployee = () => {
+
+};
 
 const viewAllEmployees = () => {};
 
-const addDepartment = () => {};
+const addDepartment = () => {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "id",
+            message: "Please enter the Department ID."
+        },
+        {
+            type: "input",
+            name: "name",
+            message: "Please enter the Department name."
+        }
+    ]).then((data)=>{
+        connection.query("INSERT INTO department SET ?",
+        {
+            id: data.id,
+            name: data.name,
+        },
+        (err, res)=>{
+            if (err) throw err;
+            console.log(`${res.affectedRows} Department(s) added to table.\n`); 
+            start();  
+        }
+        )
+    })
+};
 
 const viewAllDepartments = () => {};
 
