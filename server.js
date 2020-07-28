@@ -98,7 +98,13 @@ const updateEmployee = () => {
 
 };
 
-const viewAllEmployees = () => {};
+const viewAllEmployees = () => {
+    connection.query("SELECT * FROM employee",(err,data)=>{
+        if(err) throw err;
+        console.table(data)
+        start();
+    })
+};
 
 const addDepartment = () => {
     inquirer.prompt([
@@ -127,7 +133,13 @@ const addDepartment = () => {
     })
 };
 
-const viewAllDepartments = () => {};
+const viewAllDepartments = () => {
+    connection.query("SELECT * FROM department",(err,data)=>{
+        if(err) throw err;
+        console.table(data)
+        start();
+    })
+};
 
 const addRole = () => {
     inquirer.prompt([
@@ -168,4 +180,10 @@ const addRole = () => {
     })
 };
 
-const viewAllRoles = () => {};
+const viewAllRoles = () => {
+    connection.query("SELECT * FROM role",(err,data)=>{
+        if(err) throw err;
+        console.table(data)
+        start();
+    })
+};
