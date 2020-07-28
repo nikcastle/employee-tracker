@@ -1,6 +1,7 @@
 const util = require("util");
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+//use console.table to print out items in a table format (instead of console.log)
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -14,6 +15,8 @@ connection.connect((err) => {
     if (err) throw err;
     start();
 });
+
+
 
 const start = () => {
     inquirer.prompt({
@@ -45,9 +48,47 @@ const start = () => {
                 case "View All Roles":
                     viewAllRoles();
                 default:
-                    console.log("You must select one of the above.");
+                    console.log("You must select one of the options above.");
 
 
             }
         })
 }
+
+
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "first_name",
+            message: "Please enter the Employee's first name."
+        },
+        {
+            type: "input",
+            name: "last_name",
+            message: "Please enter the Employee's last name."
+        },
+        {
+            type: "input",
+            name: "role_id",
+            message: "Please enter the Employee's role ID."
+        },
+        {
+            type: "input",
+            name: "role_id",
+            message: "Please enter the Employee's role ID."
+        },
+    ])
+};
+
+const updateEmployee = () => {};
+
+const viewAllEmployees = () => {};
+
+const addDepartment = () => {};
+
+const viewAllDepartments = () => {};
+
+const addRole = () => {};
+
+const viewAllRoles = () => {};
