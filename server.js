@@ -275,7 +275,7 @@ const deleteRole = async ()=> {
         console.log(`${res.affectedRows} Role has been removed.`);
         start();
     } catch (err) {
-        throw err
+        throw err;
     }
 
-}
+};
