@@ -24,7 +24,7 @@ const start = () => {
             type: "list",
             name: "method",
             message: "What would you like to do?",
-            choices: ["Add Employee", "Update Employee Role", "View All Employees", "Add Department", "View All Departments", "Add Role", "View All Roles", "Exit"]
+            choices: ["Add Employee", "Update Employee Role","Remove an Employee","View All Employees", "Add Department", "View All Departments", "Add Role", "Remove a Role","View All Roles", "Exit"]
         })
         .then((answer) => {
             switch (answer.method) {
@@ -33,6 +33,9 @@ const start = () => {
                     break;
                 case "Update Employee Role":
                     updateEmployee();
+                    break;
+                case "Remove an Employee":
+                        deleteEmployee();
                     break;
                 case "View All Employees":
                     viewAllEmployees();
@@ -45,6 +48,9 @@ const start = () => {
                     break;
                 case "Add Role":
                     addRole();
+                    break;
+                case "Remove a Role":
+                    deleteRole();
                     break;
                 case "View All Roles":
                     viewAllRoles();
@@ -221,3 +227,55 @@ const viewAllRoles = () => {
         start();
     })
 };
+
+const deleteEmployee = async ()=> {
+    try {
+        const employee = await connection.query("SELECT * FROM employee")
+
+        const data = await inquirer.prompt([
+            {
+                type: "rawlist",
+                name: "employee",
+                message: "Which Employee would you like to remove?",
+                choices: employee.map(employee => ({
+                    name: employee.first_name + " " + employee.last_name,
+                    value: employee.id
+                }))
+            },
+        ])
+
+        const res = await connection.query("DELETE FROM employee WHERE id=?", data.employee)
+
+        console.log(`${res.affectedRows} Employee has been removed.`);
+        start();
+    } catch (err) {
+        throw err
+    }
+
+}
+
+const deleteRole = async ()=> {
+    try {
+        const role = await connection.query("SELECT * FROM role")
+
+        const data = await inquirer.prompt([
+            {
+                type: "rawlist",
+                name: "role",
+                message: "Which Role would you like to remove?",
+                choices: role.map(role => ({
+                    name: role.first_name + " " + role.last_name,
+                    value: role.id
+                }))
+            },
+        ])
+
+        const res = await connection.query("DELETE FROM role WHERE id=?", data.role)
+
+        console.log(`${res.affectedRows} Role has been removed.`);
+        start();
+    } catch (err) {
+        throw err
+    }
+
+}
