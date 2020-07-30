@@ -20,7 +20,7 @@ A solution for managing a company's employees using node, inquirer, and MySQL.
 2. Run the employee_db database. 
 3. Open the correct file in the terminal. 
 4. Use the command 'node server.js' in the command line to execute the program.
-![Employee Tracker Demo](./assets/img/demo.gif);
+![Employee Tracker Demo](./assets/img/demo.gif)
 
 ## License
 GNU General Public License v3
