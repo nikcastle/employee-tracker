@@ -2,7 +2,7 @@
 # Employee Tracker  <img src="https://img.shields.io/badge/License-GNU General Public License v3-yellow"></img>
 
 ## Description
-a solution for managing a company's employees using node, inquirer, and MySQL.
+A solution for managing a company's employees using node, inquirer, and MySQL.
 
 ## Table of Contents
 1. [Installation](#installation)

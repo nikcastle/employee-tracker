@@ -39,7 +39,7 @@ const start = () => {
                     break;
                 case "View All Employees":
                     viewAllEmployees();
-                    break;
+                    break; 
                 case "Add Department":
                     addDepartment();
                     break;
@@ -70,7 +70,7 @@ const start = () => {
 const addEmployee = async () => {
     try {
         const roles = await connection.query("SELECT * FROM role")
-        const employee = await connection.query("SELECT * FROM employee")
+        const manager = await connection.query("SELECT * FROM employee manager")
 
         const data = await inquirer.prompt([{
                 type: "input",
@@ -95,9 +95,9 @@ const addEmployee = async () => {
                 type: "rawlist",
                 name: "manager_id",
                 message: "Please enter the Employee's Manager.",
-                choices: employee.map(employee => ({
-                    name: employee.first_name + " " + employee.last_name,
-                    value: employee.id
+                choices: manager.map(manager => ({
+                    name: manager.first_name + " " + manager.last_name,
+                    value: manager.id
                 }))
             },
         ])
@@ -149,7 +149,7 @@ const updateEmployee = async () => {
 
 const viewAllEmployees = async () => {
     try {
-        const data = await connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name as department_name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY employee.last_name")
+        const data = await connection.query("SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS employee, role.title, role.salary, department.name as department_name,  CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id ORDER BY employee.last_name")
         console.table(data)
         start();
     } catch (err) {
