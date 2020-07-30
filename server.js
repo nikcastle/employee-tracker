@@ -24,7 +24,7 @@ const start = () => {
             type: "list",
             name: "method",
             message: "What would you like to do?",
-            choices: ["Add Employee", "Update Employee Role","Remove an Employee","View All Employees", "Add Department", "View All Departments", "Add Role", "Remove a Role","View All Roles", "Exit"]
+            choices: ["Add Employee", "Update Employee Role","Remove an Employee","View All Employees", "Add Department", "Remove a Department","View All Departments", "Add Role", "Remove a Role","View All Roles", "Exit"]
         })
         .then((answer) => {
             switch (answer.method) {
@@ -42,6 +42,9 @@ const start = () => {
                     break;
                 case "Add Department":
                     addDepartment();
+                    break;
+                case "Remove a Department":
+                    deleteDepartment();
                     break;
                 case "View All Departments":
                     viewAllDepartments();
@@ -273,6 +276,32 @@ const deleteRole = async ()=> {
         const res = await connection.query("DELETE FROM role WHERE id=?", data.role)
 
         console.log(`${res.affectedRows} Role has been removed.`);
+        start();
+    } catch (err) {
+        throw err;
+    }
+
+};
+
+const deleteDepartment = async ()=> {
+    try {
+        const department = await connection.query("SELECT * FROM department")
+
+        const data = await inquirer.prompt([
+            {
+                type: "rawlist",
+                name: "department",
+                message: "Which department would you like to remove?",
+                choices: department.map(department => ({
+                    name: department.name,
+                    value: department.id
+                }))
+            },
+        ])
+
+        const res = await connection.query("DELETE FROM department WHERE id=?", data.department)
+
+        console.log(`${res.affectedRows} Department has been removed.`);
         start();
     } catch (err) {
         throw err;
