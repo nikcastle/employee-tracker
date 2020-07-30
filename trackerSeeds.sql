@@ -1,26 +1,24 @@
-DROP DATABASE IF EXISTS employee_db;
-CREATE DATABASE employee_db;
 
-USE employee_db;
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Laura", "Palmer", 2, 1), 
+("Luke", "Danes", 7, 3),
+("Eric", "Forman", 6,3),
+("Elizabeth","Bennet",5,4),
+("Chandler", "Bing",4,4),
+("Linda", "Belcher",3,1);
 
-CREATE TABLE department (
-    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
-);
+INSERT INTO department (name)
+VALUES ("Human Resources"),
+ ("Sales"),
+ ("Tech"),
+ ("Client Services"),
+ ("Operations");
 
-CREATE TABLE role (
-    id INT AUTO_INCREMENT NOT NULL;
-    title VARCHAR(30) NOT NULL,
-    salary DECIMAL NOT NULL,
-    department_id INT,
-    INDEX dep_ind (department_id),
-    CONSTRAINT fk_department FOREIGN KEY (department_id)
-);
-
-CREATE TABLE employee (
-    id INT AUTO_INCREMENT NOT NULL,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(30) NOT NULL,
-    role_id INT NOT NULL,
-    manager_id INT
-)
+INSERT INTO role (title, salary, department_id)
+VALUES ("Account Manager",70000.00,4),
+("Payroll Manager",75000.00,1),
+("Operations Assistant",50000.00,5),
+("Sales Representative",60000.00,2),
+("Sales Team Lead",85000.00,2),
+("Tech Team Lead",100000.00,3),
+("Engineer",90000.00,3);
