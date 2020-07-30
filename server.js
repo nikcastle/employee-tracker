@@ -264,7 +264,7 @@ const deleteRole = async ()=> {
                 name: "role",
                 message: "Which Role would you like to remove?",
                 choices: role.map(role => ({
-                    name: role.first_name + " " + role.last_name,
+                    name: role.title,
                     value: role.id
                 }))
             },
