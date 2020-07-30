@@ -92,7 +92,7 @@ const addEmployee = async () => {
                 }))
             },
         ])
-        console.log(data);
+
         const res = await connection.query("INSERT INTO employee SET ?", data)
 
         console.log(`${res.affectedRows} Employee has been added.`);
@@ -140,7 +140,7 @@ const updateEmployee = async () => {
 
 const viewAllEmployees = async () => {
     try {
-        const data = await connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name as department_name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id")
+        const data = await connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name as department_name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY employee.last_name")
         console.table(data)
         start();
     } catch (err) {
@@ -177,8 +177,11 @@ const viewAllDepartments = () => {
     })
 };
 
-const addRole = () => {
-    inquirer.prompt([
+const addRole = async () => {
+    try {
+        const department = await connection.query("SELECT * FROM department");
+    
+    const data = await inquirer.prompt([
         {
             type: "input",
             name: "title",
@@ -190,27 +193,29 @@ const addRole = () => {
             message: "Please enter the Role Salary. (Format as ######.##)"
         },
         {
-            type: "input",
+            type: "rawlist",
             name: "dep_id",
-            message: "Please enter the relevant Department ID."
+            message: "Please select the relevant Department",
+            choices: department.map(department => ({
+                name: department.name,
+                value: department.id
+            }))
         },
-    ]).then((data) => {
-        connection.query("INSERT INTO role SET ?", {
+    ])
+        const res = await connection.query("INSERT INTO role SET ?", {
                 title: data.title,
                 salary: data.salary,
                 department_id: data.dep_id,
-            },
-            (err, res) => {
-                if (err) throw err;
+            });
+            
                 console.log(`\n${res.affectedRows} Role added to table.\n`);
                 start();
-            }
-        )
-    })
+    
+} catch(err) {throw err};
 };
 
 const viewAllRoles = () => {
-    connection.query("SELECT role.id, role.title, role.salary, department.name as department_name FROM role LEFT JOIN department ON role.department_id = department.id", (err, data) => {
+    connection.query("SELECT role.id, role.title, role.salary, department.name as department_name FROM role LEFT JOIN department ON role.department_id = department.id ORDER BY department_name", (err, data) => {
         if (err) throw err;
         console.table(data)
         start();
